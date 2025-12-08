@@ -1,5 +1,4 @@
-// This is a minimal Next.js 14+ App Router homepage component.
-// Save as: app/page.tsx
+"use client";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,7 +22,7 @@ export default function Home() {
         </p>
 
         <div className="flex justify-center gap-4 mb-12">
-          <Link href="https://linkedin.com/in/hhamed91" target="_blank">
+          <Link href="https://linkedin.com/in/hazemhamed91" target="_blank">
             <Button className="rounded-2xl shadow-md p-4 flex items-center gap-2">
               <Linkedin size={20} /> LinkedIn
             </Button>
