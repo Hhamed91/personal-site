@@ -1,0 +1,6 @@
+order_id,customer,status,amount,country,notes
+1001,Ava Reed,completed,245.18,US,
+1002,Jamal Ortiz,pending,,US,"amount missing"
+1003,Mira Singh,completed,0,US,"needs manual review"
+1004,Theo Park,processing,987.42,CA,
+1005,Nina Flores,done,134.55,USA,"status + country normalization"

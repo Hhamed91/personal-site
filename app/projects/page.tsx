@@ -33,6 +33,14 @@ const projects: Project[] = [
     },
   },
   {
+    slug: "csv-report-pdf",
+    title: "CSV → Clean Report PDF",
+    description:
+      "A Python pipeline that turns messy CSVs into a polished PDF with stats, warnings, and a cleaned export—perfect as a one-click “Download report” CTA.",
+    highlights: ["ReportLab PDF", "Data validation", "Python + CSV"],
+    status: "Prototype log",
+  },
+  {
     slug: "toddler-funpage",
     title: "Toddler Funpage",
     description: (
