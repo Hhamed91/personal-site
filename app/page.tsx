@@ -15,7 +15,7 @@ export default function Home() {
         transition={{ duration: 0.6 }}
         className="max-w-3xl w-full text-center"
       >
-        <h1 className="text-4xl font-bold mb-4">Hi, I'm Hazem 👋</h1>
+        <h1 className="text-4xl font-bold mb-4">Hazem Hamed - /hæz/ (like "ha-z")</h1>
         <p className="text-lg text-gray-600 mb-8">
           Welcome to my personal corner on the internet — where I share my projects,
           quick thoughts, and ways to reach me.
@@ -56,6 +56,27 @@ export default function Home() {
               <Link href="/projects">
                 <Button className="rounded-xl">View Projects</Button>
               </Link>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section className="mt-12 text-left">
+          <Card className="rounded-2xl shadow-lg">
+            <CardContent className="p-8 space-y-4">
+              <h2 className="text-2xl font-semibold">About me</h2>
+              <p className="text-gray-600 leading-relaxed">
+                One thing that’s shaped me deeply is resilience. Thirteen years ago, I
+                was seeking refuge from the Syrian civil war and was rescued after
+                being lost at sea for days. That experience fundamentally changed how
+                I approach life and work — with perspective, humility, and determination.
+              </p>
+              <p className="text-gray-600 leading-relaxed">
+                Today, I’m a proud father to a one-year-old, married for over ten
+                years, and grateful to have built a life and career I care deeply
+                about. I bring that same sense of responsibility, curiosity, and
+                perseverance into my work — staying calm in uncertainty, learning
+                quickly, and following through on what matters.
+              </p>
             </CardContent>
           </Card>
         </section>
