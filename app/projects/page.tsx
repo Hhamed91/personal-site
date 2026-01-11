@@ -11,6 +11,7 @@ type Project = {
   description: ReactNode;
   highlights: string[];
   status: string;
+  type: "technical" | "fun";
   resourceLink?: {
     href: string;
     label: string;
@@ -26,11 +27,21 @@ const projects: Project[] = [
       "Follow Fireworks AI's reinforcement fine-tuning playbook to turn natural language prompts into production-ready SQL.",
     highlights: ["Reinforcement FT", "DuckDB + MCP", "Synthetic data"],
     status: "Hands-on walkthrough",
+    type: "technical",
     resourceLink: {
       href: "https://docs.fireworks.ai/examples/text-to-sql",
       label: "Fireworks doc",
       external: true,
     },
+  },
+  {
+    slug: "sql-validator",
+    title: "SQL Validator",
+    description:
+      "A developer-friendly SQL syntax playground with sample data context, instant validation, and copy-ready results.",
+    highlights: ["SQL validation", "Sample datasets", "Copyable output"],
+    status: "Interactive tool",
+    type: "technical",
   },
   {
     slug: "csv-report-pdf",
@@ -39,6 +50,7 @@ const projects: Project[] = [
       "A Python pipeline that turns messy CSVs into a polished PDF with stats, warnings, and a cleaned export—perfect as a one-click “Download report” CTA.",
     highlights: ["ReportLab PDF", "Data validation", "Python + CSV"],
     status: "Prototype log",
+    type: "technical",
   },
   {
     slug: "toddler-funpage",
@@ -61,8 +73,14 @@ const projects: Project[] = [
     ),
     highlights: ["Next.js", "Playful UI", "Micro-interaction"],
     status: "Prototype log",
+    type: "fun",
   },
 ];
+
+const sections = [
+  { type: "technical", title: "Technical demos", description: "Build logs that focus on data pipelines, AI workflows, or other technical systems." },
+  { type: "fun", title: "Fun projects", description: "Playable experiments and whimsical interfaces—perfect for a quick smile." },
+] as const;
 
 export default function ProjectsPage() {
   return (
@@ -77,57 +95,72 @@ export default function ProjectsPage() {
         </p>
       </header>
 
-      <div className="grid gap-6">
-        {projects.map((project) => (
-          <article
-            key={project.slug}
-            className="border rounded-2xl p-6 bg-white shadow-sm hover:shadow-md transition"
-          >
-            <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-wide text-gray-400">
-              <span className="inline-flex items-center gap-1 font-semibold text-gray-500">
-                <Workflow className="size-4" />
-                Playbook
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <Database className="size-4" />
-                {project.status}
-              </span>
-            </div>
-            <h2 className="text-2xl font-semibold mt-4 mb-2">{project.title}</h2>
-            <p className="text-gray-600 mb-4">{project.description}</p>
+      <div className="space-y-12">
+        {sections.map((section) => {
+          const entries = projects.filter((project) => project.type === section.type);
+          if (entries.length === 0) return null;
 
-            <div className="flex flex-wrap gap-2 text-xs text-gray-500 mb-6">
-              {project.highlights.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full bg-gray-100 px-3 py-1 font-medium"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+          return (
+            <section key={section.type} className="space-y-4">
+              <div>
+                <h2 className="text-2xl font-semibold">{section.title}</h2>
+                <p className="text-gray-500">{section.description}</p>
+              </div>
+              <div className="grid gap-6">
+                {entries.map((project) => (
+                  <article
+                    key={project.slug}
+                    className="border rounded-2xl p-6 bg-white shadow-sm hover:shadow-md transition"
+                  >
+                    <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-wide text-gray-400">
+                      <span className="inline-flex items-center gap-1 font-semibold text-gray-500">
+                        <Workflow className="size-4" />
+                        Playbook
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <Database className="size-4" />
+                        {project.status}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl font-semibold mt-4 mb-2">{project.title}</h3>
+                    <p className="text-gray-600 mb-4">{project.description}</p>
 
-            <div className="flex flex-wrap gap-3">
-              <Link href={`/projects/${project.slug}`}>
-                <Button className="rounded-full">
-                  Open walkthrough
-                  <ArrowUpRight className="size-4" />
-                </Button>
-              </Link>
-              {project.resourceLink && (
-                <Link
-                  href={project.resourceLink.href}
-                  target={project.resourceLink.external ? "_blank" : undefined}
-                  rel={project.resourceLink.external ? "noreferrer" : undefined}
-                >
-                  <Button variant="outline" className="rounded-full">
-                    {project.resourceLink.label}
-                  </Button>
-                </Link>
-              )}
-            </div>
-          </article>
-        ))}
+                    <div className="flex flex-wrap gap-2 text-xs text-gray-500 mb-6">
+                      {project.highlights.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full bg-gray-100 px-3 py-1 font-medium"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-wrap gap-3">
+                      <Link href={`/projects/${project.slug}`}>
+                        <Button className="rounded-full">
+                          Open walkthrough
+                          <ArrowUpRight className="size-4" />
+                        </Button>
+                      </Link>
+                      {project.resourceLink && (
+                        <Link
+                          href={project.resourceLink.href}
+                          target={project.resourceLink.external ? "_blank" : undefined}
+                          rel={project.resourceLink.external ? "noreferrer" : undefined}
+                        >
+                          <Button variant="outline" className="rounded-full">
+                            {project.resourceLink.label}
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </div>
     </main>
   );
