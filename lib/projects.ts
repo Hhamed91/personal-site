@@ -18,7 +18,7 @@ export const projects: Project[] = [
     route: "/projects/text-to-sql-in-progress",
     type: "technical",
     tags: ["Reinforcement FT", "DuckDB + MCP", "Synthetic data"],
-    createdAt: "2025-02-10",
+    createdAt: "2025-12-04",
   },
   {
     id: "sql-validator",
@@ -28,7 +28,7 @@ export const projects: Project[] = [
     route: "/projects/sql-validator",
     type: "technical",
     tags: ["SQL validation", "Sample datasets", "Copyable output"],
-    createdAt: "2025-01-20",
+    createdAt: "2026-01-11",
   },
   {
     id: "postman-collection",
@@ -38,7 +38,7 @@ export const projects: Project[] = [
     route: "/projects/postman-collection",
     type: "technical",
     tags: ["Public API", "Postman collection", "Documentation"],
-    createdAt: "2024-12-15",
+    createdAt: "2026-01-25",
   },
   {
     id: "csv-report-pdf",
@@ -48,7 +48,7 @@ export const projects: Project[] = [
     route: "/projects/csv-report-pdf",
     type: "technical",
     tags: ["ReportLab PDF", "Data validation", "Python + CSV"],
-    createdAt: "2024-11-20",
+    createdAt: "2026-01-02",
   },
   {
     id: "toddler-funpage",
@@ -58,7 +58,7 @@ export const projects: Project[] = [
     route: "/projects/toddler-funpage",
     type: "fun",
     tags: ["Next.js", "Playful UI", "Micro-interaction"],
-    createdAt: "2024-07-01",
+    createdAt: "2026-01-01",
   },
   {
     id: "snow-particle-lab",
@@ -68,6 +68,6 @@ export const projects: Project[] = [
     route: "/projects/snow-particle-lab",
     type: "fun",
     tags: ["Particles", "Generative UI", "Interactive controls"],
-    createdAt: "2024-06-10",
+    createdAt: "2026-01-19",
   },
 ];
