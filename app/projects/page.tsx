@@ -44,6 +44,20 @@ const projects: Project[] = [
     type: "technical",
   },
   {
+    slug: "postman-collection",
+    title: "Personal Site Public API + Postman Collection",
+    description:
+      "A clean, read-only API paired with a Postman collection that makes it easy to explore blogs and projects without authentication.",
+    highlights: ["Public API", "Postman collection", "Documentation"],
+    status: "API design + docs",
+    type: "technical",
+    resourceLink: {
+      href: "https://github.com/Hhamed91/personal-site",
+      label: "GitHub repo",
+      external: true,
+    },
+  },
+  {
     slug: "csv-report-pdf",
     title: "CSV → Clean Report PDF",
     description:
@@ -73,6 +87,15 @@ const projects: Project[] = [
     ),
     highlights: ["Next.js", "Playful UI", "Micro-interaction"],
     status: "Prototype log",
+    type: "fun",
+  },
+  {
+    slug: "snow-particle-lab",
+    title: "Snow Particle Lab",
+    description:
+      "A snowflake generator playground that mixes randomized geometry, motion controls, and shareable presets.",
+    highlights: ["Particles", "Generative UI", "Interactive controls"],
+    status: "Interactive demo",
     type: "fun",
   },
 ];

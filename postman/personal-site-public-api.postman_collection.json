@@ -1,0 +1,261 @@
+{
+  "info": {
+    "name": "Personal Site Public API",
+    "description": "Public, read-only endpoints for blogs and projects on the personal site. No authentication required.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://personal-site-ten-delta-48.vercel.app"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/health",
+          "host": ["{{base_url}}"],
+          "path": ["api", "health"]
+        },
+        "description": "Returns a simple uptime check response."
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "health"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"ok\": true,\n  \"data\": {\n    \"status\": \"ok\"\n  },\n  \"meta\": {\n    \"generatedAt\": \"2024-01-20T12:00:00.000Z\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Blogs",
+      "description": "Browse blog metadata or fetch a single post by slug.",
+      "item": [
+        {
+          "name": "Get All Blogs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/blogs",
+              "host": ["{{base_url}}"],
+              "path": ["api", "blogs"]
+            },
+            "description": "Returns a list of blog metadata (title, slug, tags, readTime, date)."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/blogs",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "blogs"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"data\": [\n    {\n      \"slug\": \"one-page-destroyed-confidence\",\n      \"title\": \"One Page Destroyed My Confidence\",\n      \"date\": \"2024-01-15\",\n      \"tags\": [\"shipping\", \"nextjs\"],\n      \"readTime\": 6\n    }\n  ],\n  \"meta\": {\n    \"count\": 1,\n    \"generatedAt\": \"2024-01-20T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Blog by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/blogs/:slug",
+              "host": ["{{base_url}}"],
+              "path": ["api", "blogs", ":slug"],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "one-page-destroyed-confidence"
+                }
+              ]
+            },
+            "description": "Returns the full blog content plus metadata for the provided slug."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/blogs/one-page-destroyed-confidence",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "blogs", "one-page-destroyed-confidence"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"data\": {\n    \"slug\": \"one-page-destroyed-confidence\",\n    \"title\": \"One Page Destroyed My Confidence\",\n    \"date\": \"2024-01-15\",\n    \"tags\": [\"shipping\", \"nextjs\"],\n    \"readTime\": 6,\n    \"contentHtml\": \"<p>Every indie project has that moment...</p>\"\n  },\n  \"meta\": {\n    \"generatedAt\": \"2024-01-20T12:00:00.000Z\"\n  }\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/blogs/does-not-exist",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "blogs", "does-not-exist"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Blog post not found.\"\n  },\n  \"meta\": {\n    \"generatedAt\": \"2024-01-20T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "description": "Browse project summaries or fetch a single project by id.",
+      "item": [
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/projects",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects"]
+            },
+            "description": "Returns a list of project summaries (name, description, route, type)."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/projects",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "projects"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"data\": [\n    {\n      \"id\": \"postman-collection\",\n      \"name\": \"Personal Site Public API + Postman Collection\",\n      \"description\": \"A clean, read-only API paired with a Postman collection that makes it easy to explore blogs and projects without authentication.\",\n      \"route\": \"/projects/postman-collection\",\n      \"type\": \"technical\",\n      \"tags\": [\"Public API\", \"Postman collection\", \"Documentation\"]\n    }\n  ],\n  \"meta\": {\n    \"count\": 1,\n    \"generatedAt\": \"2024-01-20T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Project by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/projects/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "projects", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "postman-collection"
+                }
+              ]
+            },
+            "description": "Returns a detailed project payload for the provided id."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/projects/postman-collection",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "projects", "postman-collection"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": true,\n  \"data\": {\n    \"id\": \"postman-collection\",\n    \"name\": \"Personal Site Public API + Postman Collection\",\n    \"description\": \"A clean, read-only API paired with a Postman collection that makes it easy to explore blogs and projects without authentication.\",\n    \"route\": \"/projects/postman-collection\",\n    \"type\": \"technical\",\n    \"tags\": [\"Public API\", \"Postman collection\", \"Documentation\"]\n  },\n  \"meta\": {\n    \"generatedAt\": \"2024-01-20T12:00:00.000Z\"\n  }\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/projects/does-not-exist",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "projects", "does-not-exist"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ok\": false,\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Project not found.\"\n  },\n  \"meta\": {\n    \"generatedAt\": \"2024-01-20T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
