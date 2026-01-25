@@ -9,7 +9,7 @@ const COLLECTION_GITHUB_URL =
 const ENVIRONMENT_GITHUB_URL =
   "https://github.com/Hhamed91/personal-site/blob/main/postman/personal-site-public-api.postman_environment.json";
 const RUN_IN_POSTMAN_URL =
-  "https://www.postman.com/run-collection/YOUR_COLLECTION_UID?env[base_url]=https://personal-site-ten-delta-48.vercel.app";
+  "https://www.postman.com/run-collection/50690739-2bb3e133-7fe4-4bee-ba03-69329e607efe?env[base_url]=https://personal-site-ten-delta-48.vercel.app";
 const GITHUB_REPO_URL = "https://github.com/Hhamed91/personal-site";
 const COLLECTION_REPO_URL =
   "https://github.com/Hhamed91/personal-site-postman-collection";
