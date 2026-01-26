@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
+import SiteFooter from "@/components/SiteFooter";
+import SiteHeader from "@/components/SiteHeader";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -83,7 +85,11 @@ drift.load('w4m7iau4yvan');`}
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        {children}
+        <div className="min-h-screen flex flex-col bg-gray-50">
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
+        </div>
         <Analytics />
       </body>
     </html>
