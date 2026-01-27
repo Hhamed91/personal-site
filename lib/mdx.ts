@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 
-export type PostSummary = {
+export type BlogMeta = {
   slug: string;
   title: string;
   date: string | null;
@@ -12,7 +12,7 @@ export type PostSummary = {
   readTime: number | null;
 };
 
-export type Post = PostSummary & {
+export type BlogPost = BlogMeta & {
   contentHtml: string;
 };
 
@@ -28,7 +28,7 @@ const toNumber = (value: unknown): number | null => {
 };
 
 /* ---------- BLOG INDEX ---------- */
-export function getAllPosts(): PostSummary[] {
+export function getAllPosts(): BlogMeta[] {
   if (!fs.existsSync(postsDir)) {
     return [];
   }
@@ -50,7 +50,7 @@ export function getAllPosts(): PostSummary[] {
         date: data.date ?? null,
         tags: data.tags ?? [],
         readTime: toNumber(data.readTime),
-      } satisfies PostSummary;
+      } satisfies BlogMeta;
     });
 
   return posts.sort((a, b) => {
@@ -61,11 +61,11 @@ export function getAllPosts(): PostSummary[] {
 }
 
 /* ---------- SINGLE POST ---------- */
-export async function getPostBySlug(slug: string): Promise<Post> {
+export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   const filePath = path.join(postsDir, `${slug}.md`);
 
   if (!fs.existsSync(filePath)) {
-    throw new Error(`Post not found: ${slug}`);
+    return null;
   }
 
   const fileContent = fs.readFileSync(filePath, "utf8");
@@ -80,5 +80,5 @@ export async function getPostBySlug(slug: string): Promise<Post> {
     tags: data.tags ?? [],
     readTime: toNumber(data.readTime),
     contentHtml: processedContent.toString(),
-  } satisfies Post;
+  } satisfies BlogPost;
 }

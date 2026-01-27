@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import CommandKButton from "@/components/CommandKButton";
+import BostonStatus from "@/components/BostonStatus";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -21,10 +23,8 @@ export default function SiteHeader() {
 
   return (
     <header className="border-b border-slate-200 bg-white/90">
-      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="text-lg font-semibold text-slate-900">
-          Hazem Hamed
-        </Link>
+      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+        <BostonStatus />
 
         <nav className="hidden md:flex items-center gap-6 text-sm text-slate-600">
           {navLinks.map((link) => (
@@ -42,15 +42,18 @@ export default function SiteHeader() {
           ))}
         </nav>
 
-        <button
-          type="button"
-          className="md:hidden rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600"
-          onClick={() => setIsOpen((prev) => !prev)}
-          aria-expanded={isOpen}
-          aria-controls="mobile-nav"
-        >
-          Menu
-        </button>
+        <div className="flex items-center gap-3">
+          <CommandKButton />
+          <button
+            type="button"
+            className="md:hidden rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600"
+            onClick={() => setIsOpen((prev) => !prev)}
+            aria-expanded={isOpen}
+            aria-controls="mobile-nav"
+          >
+            Menu
+          </button>
+        </div>
       </div>
 
       {isOpen && (
