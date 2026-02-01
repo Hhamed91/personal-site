@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { Archive, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,7 +9,7 @@ const cards = [
     title: "Color Surprise",
     description:
       "The first card in the set. Tap it and it cycles through colors with cheerful copy that keeps toddlers engaged.",
-    status: "Live",
+    status: "Shipped",
   },
   {
     title: "Animal Sounds",
@@ -38,27 +38,30 @@ export default function ToddlerFunpageProject() {
       </nav>
 
       <header className="space-y-4">
-        <p className="inline-flex items-center gap-2 text-xs uppercase tracking-wide text-gray-500">
-          <Sparkles className="size-4" />
-          Fun Projects / Playground
-        </p>
+        <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-wide text-gray-500">
+          <span className="inline-flex items-center gap-2">
+            <Sparkles className="size-4" />
+            Fun Projects / Playground
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-gray-200 px-3 py-1 text-[10px] font-semibold text-gray-600">
+            <Archive className="size-3" />
+            Archived
+          </span>
+        </div>
         <h1 className="text-4xl font-bold">Toddler Funpage</h1>
         <p className="text-lg text-gray-600">
           A playful multi-card interface where toddlers can tap through short,
           interactive experiences. Built as a running log of UI patterns geared
           toward delightful micro-interactions.
         </p>
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          The live demo is archived because the Replit free plan expired and the
+          hosted app was shut down.
+        </div>
         <div className="flex flex-wrap gap-3">
-          <Link
-            href="https://toddler-funpage--hazemhamed9191.replit.app/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Button className="rounded-full">
-              Try the live demo
-              <ArrowUpRight className="size-4" />
-            </Button>
-          </Link>
+          <Button className="rounded-full" disabled>
+            Demo archived
+          </Button>
           <Link href="/projects">
             <Button variant="outline" className="rounded-full">
               Back to projects
@@ -96,12 +99,10 @@ export default function ToddlerFunpageProject() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-2xl font-semibold">What&apos;s next</h2>
+        <h2 className="text-2xl font-semibold">Status</h2>
         <p className="text-gray-600">
-          I&apos;m layering in more expressive cards that mix custom hooks,
-          browser audio APIs, and subtle haptics. If you have an idea for a tiny
-          interactive moment kids would love, drop me a note and I&apos;ll add it
-          to the backlog.
+          This project is archived for now. If I relaunch it on a new hosting
+          plan, I&apos;ll reopen the demo and expand the card set.
         </p>
       </section>
     </main>
