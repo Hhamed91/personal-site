@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { openCommandPalette } from "@/components/CommandPalette";
 
 function detectPlatformLabel() {
@@ -10,11 +10,7 @@ function detectPlatformLabel() {
 }
 
 export default function CommandKButton() {
-  const [label, setLabel] = useState("Ctrl K");
-
-  useEffect(() => {
-    setLabel(detectPlatformLabel());
-  }, []);
+  const label = useMemo(() => detectPlatformLabel(), []);
 
   return (
     <button

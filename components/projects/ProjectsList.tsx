@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 
 import ListFilters from "@/components/ListFilters";
@@ -60,9 +60,9 @@ export default function ProjectsList({ projects }: { projects: Project[] }) {
     [sortedProjects, group, type, month, search]
   );
 
-  useEffect(() => {
+  const resetVisibleCount = () => {
     setVisibleCount(PAGE_SIZE);
-  }, [group, type, month, search]);
+  };
 
   const visibleProjects = filteredProjects.slice(0, visibleCount);
   const canLoadMore = visibleCount < filteredProjects.length;
@@ -78,15 +78,28 @@ export default function ProjectsList({ projects }: { projects: Project[] }) {
           typeValue={type}
           monthValue={month}
           searchValue={search}
-          onGroupChange={setGroup}
-          onTypeChange={setType}
-          onMonthChange={setMonth}
-          onSearchChange={setSearch}
+          onGroupChange={(value) => {
+            setGroup(value);
+            resetVisibleCount();
+          }}
+          onTypeChange={(value) => {
+            setType(value);
+            resetVisibleCount();
+          }}
+          onMonthChange={(value) => {
+            setMonth(value);
+            resetVisibleCount();
+          }}
+          onSearchChange={(value) => {
+            setSearch(value);
+            resetVisibleCount();
+          }}
           onClear={() => {
             setGroup("all");
             setType("all");
             setMonth("all");
             setSearch("");
+            resetVisibleCount();
           }}
         />
       </div>

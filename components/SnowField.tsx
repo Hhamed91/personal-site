@@ -190,6 +190,7 @@ export default function SnowField({ settings, regenerateKey, clearKey, paused }:
     return () => observer.disconnect();
   }, []);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (clearKey > lastClearRef.current) {
       lastClearRef.current = clearKey;
@@ -216,6 +217,7 @@ export default function SnowField({ settings, regenerateKey, clearKey, paused }:
     bounds.width,
     bounds.height,
   ]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   useEffect(() => {
     let lastTime = performance.now();

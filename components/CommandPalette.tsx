@@ -29,7 +29,10 @@ export default function CommandPalette() {
 
   const openPalette = useCallback(() => {
     setQuery("");
+    setActiveIndex(0);
+    setIsMounted(true);
     setIsOpen(true);
+    setTimeout(() => inputRef.current?.focus(), 0);
   }, []);
 
   const commands = useMemo<CommandItem[]>(
@@ -91,15 +94,8 @@ export default function CommandPalette() {
   }, [commands, query]);
 
   useEffect(() => {
-    setActiveIndex(0);
-  }, [query, isOpen, filteredCommands.length]);
-
-  useEffect(() => {
-    if (isOpen) {
-      setIsMounted(true);
-      setTimeout(() => inputRef.current?.focus(), 0);
-    }
-  }, [isOpen]);
+    itemRefs.current = [];
+  }, [filteredCommands]);
 
   useEffect(() => {
     const handleOpenEvent = () => {
@@ -179,9 +175,12 @@ export default function CommandPalette() {
     }
   };
 
-  if (!isMounted) return null;
+  const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+    setActiveIndex(0);
+  };
 
-  itemRefs.current = [];
+  if (!isMounted) return null;
 
   return (
     <div
@@ -209,7 +208,7 @@ export default function CommandPalette() {
           <input
             ref={inputRef}
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={handleQueryChange}
             onKeyDown={handleKeyDown}
             aria-label="Search commands"
             placeholder="Type a command ..."
