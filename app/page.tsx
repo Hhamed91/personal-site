@@ -1,5 +1,6 @@
 "use client";
 
+import posthog from "posthog-js";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -24,12 +25,32 @@ export default function Home() {
         </p>
 
         <div className="flex justify-center gap-4 mb-12">
-          <Link href="https://linkedin.com/in/hazemhamed91" target="_blank">
+          <Link
+            href="https://linkedin.com/in/hazemhamed91"
+            target="_blank"
+            onClick={() => {
+              posthog.capture("homepage_cta_clicked", {
+                cta_name: "linkedin",
+                cta_location: "hero",
+                destination: "https://linkedin.com/in/hazemhamed91",
+              });
+            }}
+          >
             <Button className="rounded-2xl shadow-md p-4 flex items-center gap-2">
               <Linkedin size={20} /> LinkedIn
             </Button>
           </Link>
-          <Link href="https://github.com/hhamed91" target="_blank">
+          <Link
+            href="https://github.com/hhamed91"
+            target="_blank"
+            onClick={() => {
+              posthog.capture("homepage_cta_clicked", {
+                cta_name: "github",
+                cta_location: "hero",
+                destination: "https://github.com/hhamed91",
+              });
+            }}
+          >
             <Button className="rounded-2xl shadow-md p-4 flex items-center gap-2">
               <Github size={20} /> GitHub
             </Button>
