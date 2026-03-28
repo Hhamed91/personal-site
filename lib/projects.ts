@@ -11,6 +11,16 @@ export type Project = {
 // Source of truth for public project data.
 export const projects: Project[] = [
   {
+    id: "multi-source-intake-ai-triage",
+    name: "Multi-Source Intake & AI Triage System",
+    description:
+      "A production-style operations workflow demo that consolidates messy requests, normalizes them into a canonical model, and routes work through AI-assisted triage.",
+    route: "/projects/multi-source-intake-ai-triage",
+    type: "technical",
+    tags: ["Prisma + SQLite", "Ingestion pipelines", "AI triage"],
+    createdAt: "2026-03-27",
+  },
+  {
     id: "text-to-sql-in-progress",
     name: "Text-to-SQL RFT Demo - In progress",
     description:

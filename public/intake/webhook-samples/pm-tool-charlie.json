@@ -1,0 +1,13 @@
+{
+  "card_id": "JIRA-332",
+  "cardTitle": "March Product changelog",
+  "owner_name": "Riya Patel",
+  "owner_email": "",
+  "org_unit": "Prod Update",
+  "request_kind": "Update Existing",
+  "priority": "",
+  "created_at": "21-03-2026",
+  "deadline": "31-03-2026",
+  "comments": "Need concise changelog copy for the dashboard rollout and admin permissions release.",
+  "brief": "Publish product update notes for March release."
+}

@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum SourceType {
+  webhook
+  csv
+  form
+  slack
+}
+
+enum ValidationStatus {
+  valid
+  warning
+  failed
+  duplicate
+}
+
+enum RequestStatus {
+  New
+  NeedsReview
+  Approved
+  InProgress
+  InReview
+  Blocked
+  Completed
+  Rejected
+}
+
+model Department {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  requests  Request[]
+}
+
+model RequestType {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  requests  Request[]
+}
+
+model User {
+  id           String       @id @default(cuid())
+  name         String
+  email        String       @unique
+  role         String
+  createdAt    DateTime     @default(now())
+  submitted    Request[]    @relation("SubmittedRequests")
+  assignments  Assignment[]
+  comments     RequestEvent[]
+}
+
+model SourceRecord {
+  id                  String           @id
+  source              SourceType
+  externalId          String
+  rawPayload          Json
+  mappedPayload       Json
+  validationStatus    ValidationStatus
+  warnings            Json
+  duplicateOfRequestId String?
+  createdAt           DateTime
+  request             Request?
+
+  @@index([source, externalId])
+}
+
+model Request {
+  id                    String          @id
+  title                 String
+  description           String
+  submittedByName       String
+  submittedByEmail      String
+  source                SourceType
+  sourceRecordId        String          @unique
+  departmentId          String?
+  requestTypeId         String?
+  priorityOriginal      String
+  priorityNormalized    String
+  dateSubmitted         DateTime
+  dueDate               DateTime?
+  status                RequestStatus
+  notes                 String
+  aiSummary             String
+  aiDepartment          String
+  aiRequestType         String
+  aiPriority            String
+  aiConfidence          Float
+  aiRationale           String
+  finalDepartment       String
+  finalRequestType      String
+  finalPriority         String
+  departmentSource      String
+  requestTypeSource     String
+  prioritySource        String
+  duplicateOfRequestId  String?
+  validationStatus      ValidationStatus
+  validationErrors      Json
+  warnings              Json
+  requestorCompany      String?
+  createdAt             DateTime
+  updatedAt             DateTime
+  sourceRecord          SourceRecord    @relation(fields: [sourceRecordId], references: [id])
+  department            Department?     @relation(fields: [departmentId], references: [id])
+  requestType           RequestType?    @relation(fields: [requestTypeId], references: [id])
+  submitterId           String?
+  submitter             User?           @relation("SubmittedRequests", fields: [submitterId], references: [id])
+  triageResults         TriageResult[]
+  assignments           Assignment[]
+  events                RequestEvent[]
+
+  @@index([status, finalPriority])
+  @@index([submittedByEmail, dateSubmitted])
+}
+
+model TriageResult {
+  id          String   @id @default(cuid())
+  requestId   String
+  provider    String
+  summary     String
+  department  String
+  requestType String
+  priority    String
+  confidence  Float
+  rationale   String
+  createdAt   DateTime @default(now())
+  request     Request  @relation(fields: [requestId], references: [id], onDelete: Cascade)
+}
+
+model Assignment {
+  id          String   @id @default(cuid())
+  requestId   String
+  assigneeId  String
+  assignedBy  String
+  createdAt   DateTime @default(now())
+  request     Request  @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  assignee    User     @relation(fields: [assigneeId], references: [id])
+}
+
+model RequestEvent {
+  id         String   @id
+  requestId  String
+  actorId    String?
+  type       String
+  message    String
+  createdAt  DateTime
+  request    Request  @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  actor      User?    @relation(fields: [actorId], references: [id])
+}
+
+model IngestionRun {
+  id                 String   @id
+  source             SourceType
+  label              String
+  startedAt          DateTime
+  completedAt        DateTime
+  rowsReceived       Int
+  rowsImported       Int
+  rowsWithWarnings   Int
+  rowsFailed         Int
+  duplicatesDetected Int
+}

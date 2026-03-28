@@ -1,0 +1,13 @@
+{
+  "id": "Asana-774",
+  "subject": "API auth docs rewrite",
+  "submitter_name": "Ethan Brooks",
+  "submitter_email": "ETHAN.BROOKS@northstar.example ",
+  "dept": "CS",
+  "type": "Prod Update",
+  "urgency": "critical",
+  "submitted_at": "3/18/26",
+  "needed_by": "2026/03/28",
+  "context": "OAuth copy is out of date and blocking two enterprise customer integrations. Include new code samples.",
+  "description": "Rewrite API authentication docs for OAuth setup and token refresh flow."
+}
