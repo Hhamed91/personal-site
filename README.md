@@ -18,7 +18,7 @@ The portfolio artifact includes:
 - an interactive demo at `/projects/multi-source-intake-ai-triage/demo`
 - Prisma + SQLite schema and seed data
 - sample webhook payloads and a partner CSV import
-- a Slack slash-command intake endpoint with optional incoming-webhook confirmation
+- a Slack slash-command + modal intake backend that forwards into Airtable
 
 ## Stack
 
@@ -105,8 +105,8 @@ Sources:
   Parses batch uploads and returns row-level statuses: imported, warning, failed, duplicate.
 - Native form
   Represents the structured internal path while still using the same downstream pipeline.
-- Slack slash command
-  Accepts structured intake from Slack and persists it through the same validation, normalization, dedupe, and AI triage pipeline.
+- Slack slash command + modal
+  Captures intake in Slack, then posts a normalized webhook payload into Airtable automation for downstream intake, normalization, and AI triage.
 
 The canonical request record preserves:
 
@@ -119,36 +119,77 @@ The canonical request record preserves:
 
 ## Slack Intake Setup
 
-Slack incoming webhooks are outbound only: they post messages from your app into Slack. They do not let Slack submit intake into your app. For Slack-originated intake, use a slash command or shortcut, and optionally use an incoming webhook to post confirmation back into Slack.
-
-This project includes:
+This project exposes two signed Slack backend routes:
 
 - `POST /api/slack/commands`
-  Signed slash-command endpoint for Slack intake submissions.
-- optional `SLACK_INCOMING_WEBHOOK_URL`
-  Posts a confirmation message back to Slack after a request is created.
+  Verifies the slash-command request and opens the intake modal with `views.open`.
+- `POST /api/slack/interactions`
+  Verifies modal submissions, maps the form into the Airtable automation payload, and posts it to your Airtable webhook.
 
 Required environment variables:
 
 ```bash
 SLACK_SIGNING_SECRET=...
-SLACK_INCOMING_WEBHOOK_URL=...
+SLACK_BOT_TOKEN=...
+AIRTABLE_WEBHOOK_URL=...
 ```
 
-Recommended Slack app setup:
+Optional environment variables kept for future Slack app expansion:
 
-1. In Slack app settings, enable Incoming Webhooks and create a webhook for your intake-confirmation channel.
-2. Create a slash command such as `/intake`.
-3. Set its Request URL to `https://<your-public-host>/api/slack/commands`.
-4. Reinstall the app after changing scopes or features.
-
-Command format:
-
-```text
-/intake Title | description | dept=Marketing | type=New Content | priority=High | due=2026-04-15 | notes=Launch blocker
+```bash
+SLACK_CLIENT_ID=...
+SLACK_CLIENT_SECRET=...
 ```
 
-The endpoint verifies Slack signatures, parses the command text into canonical intake fields, stores the request, and optionally posts a confirmation message via incoming webhook.
+Slack app configuration:
+
+1. Create a Slack app for the demo workspace.
+2. Under `Slash Commands`, create `/intake`.
+3. Set the slash command Request URL to `https://<your-domain>/api/slack/commands`.
+4. Under `Interactivity & Shortcuts`, enable interactivity.
+5. Set the Interactivity Request URL to `https://<your-domain>/api/slack/interactions`.
+6. Under `OAuth & Permissions`, add the bot token scope `commands`.
+7. Install or reinstall the app to the workspace and copy the bot token and signing secret into Vercel env vars.
+
+Airtable automation setup:
+
+1. Create an Airtable automation with trigger `When webhook received`.
+2. Copy the generated webhook URL into `AIRTABLE_WEBHOOK_URL`.
+3. Map the incoming JSON into your existing Airtable intake / normalization / AI triage automation.
+4. Expect a payload shaped like:
+
+```json
+{
+  "subject": "Request Title",
+  "body": "Description",
+  "submitted_by": "Slack user display name",
+  "contact_email": "requester@example.com",
+  "dept": "Marketing",
+  "urgency": "High",
+  "category_tag": "New Content",
+  "ticket_status": "Open",
+  "target_date": "2026-04-15",
+  "source_system": "Slack",
+  "event_type": "request.created"
+}
+```
+
+Local testing:
+
+```bash
+pnpm install
+cp .env.example .env.local
+pnpm dev
+```
+
+Then expose the app publicly for Slack, for example with a tunnel, and configure:
+
+- Slash command URL: `https://<public-url>/api/slack/commands`
+- Interactivity URL: `https://<public-url>/api/slack/interactions`
+
+Flow summary:
+
+`/intake` in Slack -> signed request to `/api/slack/commands` -> modal opens -> signed `view_submission` to `/api/slack/interactions` -> mapped JSON POST to Airtable webhook -> existing Airtable workflow continues downstream.
 
 ## How AI Triage Works
 

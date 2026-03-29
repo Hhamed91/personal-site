@@ -2,14 +2,19 @@ import crypto from "node:crypto";
 
 const FIVE_MINUTES_IN_SECONDS = 60 * 5;
 
-export function verifySlackRequest(options: {
+type VerifySlackSignatureOptions = {
   body: string;
   timestamp: string | null;
   signature: string | null;
   signingSecret: string;
-}) {
-  const { body, timestamp, signature, signingSecret } = options;
+};
 
+export function verifySlackSignature({
+  body,
+  timestamp,
+  signature,
+  signingSecret,
+}: VerifySlackSignatureOptions) {
   if (!timestamp || !signature) {
     return false;
   }
@@ -19,9 +24,10 @@ export function verifySlackRequest(options: {
     return false;
   }
 
-  const baseString = `v0:${timestamp}:${body}`;
-  const digest = crypto.createHmac("sha256", signingSecret).update(baseString).digest("hex");
-  const computedSignature = `v0=${digest}`;
+  const computedSignature = `v0=${crypto
+    .createHmac("sha256", signingSecret)
+    .update(`v0:${timestamp}:${body}`)
+    .digest("hex")}`;
 
   try {
     return crypto.timingSafeEqual(
